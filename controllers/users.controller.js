@@ -23,6 +23,7 @@ const registerUser = asyncHandler( async ( req, res ) => {
   const hashedPassword = await bcrypt.hash( password, salt )
   var user ; 
 
+  // Delete this
   if ( rol === 'admin' ) {
     //creamos el usuario
     user = await User.create({
@@ -96,12 +97,14 @@ const updateRol = asyncHandler( async ( req, res ) => {
     throw new Error( 'Usuario no encontrado' )
   }
 
-  if ( rol !== 'default' ) {
+  if ( req.user.rol !== 'default' ) {
     res.status( 400 )
     throw new Error( 'Esta acción no puede realizarse si eres vendedor o administrador' )
   }
 
-  const updatedRol = await User.findByIdAndUpdate( id, seller, { new: true })
+  const updatedRol = await User
+    .findByIdAndUpdate( id, seller, { new: true })
+    .select( '-_id -password -createdAt -__v' ) 
   res.status( 200 ).json( updatedRol )
 })
 

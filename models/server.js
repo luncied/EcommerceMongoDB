@@ -1,8 +1,9 @@
-require('dotenv').config({path:__dirname+'/../.env'});
-const { dataBaseConnection } = require('../config/db')
-const { errors } = require('celebrate');
-const express = require('express');
-const cors = require('cors');
+// require( 'dotenv' ).config({ path:__dirname+'/../.env' });
+const { dataBaseConnection } = require( '../config/db' )
+// const { errors } = require('celebrate');
+const colors = require( 'colors' );
+const express = require( 'express' );
+const cors = require( 'cors' );
 
 class Server {
 
@@ -22,19 +23,20 @@ class Server {
   }
 
   middlewares(){
-    this.app.use(cors());
-    this.app.use(express.json());
+    this.app.use( cors() );
+    this.app.use( express.json() );
+    this.app.use( express.urlencoded({ extended: false }))
   };
 
   routes(){
-    this.app.use(this.usersPath, require('../routes/users.routes'), errors());
-    this.app.use(this.productsPath, require('../routes/products.routes'));
-    this.app.use(this.ordersPath, require('../routes/orders.routes'));
+    this.app.use( this.usersPath, require('../routes/users.routes') );
+    this.app.use( this.productsPath, require('../routes/products.routes') );
+    // this.app.use( this.ordersPath, require('../routes/orders.routes') );
   }
 
   listen(){
-    this.app.listen(this.port, () => {
-      console.log(`Server listening on port ${this.port}`)
+    this.app.listen( this.port, () => {
+      console.log( `Server listening on port ${this.port}` )
     });
   };
 }
