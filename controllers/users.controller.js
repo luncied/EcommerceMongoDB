@@ -1,6 +1,6 @@
 const bcrypt = require( 'bcryptjs' );
 const asyncHandler = require( 'express-async-handler' );
-const User = require( '../models/users.model' );
+const User = require( '../models/user.model' );
 const generateJWT = require( '../helpers/generateJWT' );
 
 const registerUser = asyncHandler( async ( req, res ) => {
